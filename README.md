@@ -11,7 +11,7 @@ In this tutorial, we’ll walk step-by-step through creating a simple clustered 
 
 We’ll begin by creating a basic EasyRouting app that responds to HTTP `GET` requests with “Hello World!”.
 
-First, set up a Maven project and add the EasyRouting dependency or get a project from GitHub: https://github.com/gregory-ledenev/EasyRoutingClusterSample.
+First, set up a Maven project and add the EasyRouting dependency:
 
 ```xml
 
@@ -120,7 +120,7 @@ This is where EasyRouting helps us. It allows you to declare URIs for cluster me
 @GET("/*")
 public String helloWorld(@ClusterNodeURI("node1") URI node1,
                          @ClusterNodeURI("node2") URI node2) {
-    ...
+    // add your code here
 }
 ```
 
