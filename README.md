@@ -1,4 +1,4 @@
-# Sample Clustering Application Using EasyRouting for Vert.x
+# Sample Clustered Application Using EasyRouting for Vert.x
 
 Building clustered applications and microservices can seem daunting. Typically, it requires deep knowledge, heavy
 configuration, and quite a bit of boilerplate code. However, with [EasyRouting](https://github.com/gregory-ledenev/vert.x-easyrouting) for Vert.x, you can get started with minimal setup and a very short learning curve.
