@@ -1,4 +1,4 @@
-# Clustering Sample Application Using EasyRouting for Vert.x
+# Sample Clustering Application Using EasyRouting for Vert.x
 
 Building clustered applications and microservices can seem daunting. Typically, it requires deep knowledge, heavy
 configuration, and quite a bit of boilerplate code. However, with [EasyRouting](https://github.com/gregory-ledenev/vert.x-easyrouting) for Vert.x, you can get started with minimal setup and a very short learning curve.
@@ -11,7 +11,7 @@ In this tutorial, we’ll walk step-by-step through creating a simple clustered 
 
 We’ll begin by creating a basic EasyRouting app that responds to HTTP `GET` requests with “Hello World!”.
 
-First, set up a Maven project and add the EasyRouting dependency:
+First, set up a Maven project and add the EasyRouting dependency or get a project from GitHub: https://github.com/gregory-ledenev/EasyRoutingClusterSample.
 
 ```xml
 
