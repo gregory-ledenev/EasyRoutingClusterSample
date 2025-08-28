@@ -68,13 +68,14 @@ Members {size:1, ver:1} [
     Member [192.168.1.207]:5701 - 78278fe3-fdc3-4926-ac10-e870554b5659 this
 ]
 ```
+EasyRouting hides the complexity of forming a cluster, registering/unregistering nodes with it, etc. 
 
 ***
 
 ## Step 3: Running Multiple Nodes
 
 Let’s extend this further and allow the app to run with multiple nodes. By passing in a port and a node name, we can
-allow starting* 1` several instances of the same application on the same host.
+allow starting  several instances of the same application on the same host.
 
 - If no arguments are given → node defaults to `"main"`, running on port `8080`.
 - Otherwise → node name = `"node<port>"` and it runs on the provided port.
@@ -90,7 +91,7 @@ public static void main(String[] args) {
 }
 ```
 
-You can now launch multiple instances (e.g., ports `8080`, `8081`, `8082`), and they will automatically form a cluster:
+You can now launch multiple instances (e.g., "main" on `8080`, "node1" on "`8081`, "node2" on "`8082`), and they will automatically form a cluster:
 
 ```
 Members {size:3, ver:3} [
@@ -113,7 +114,7 @@ Imagine this setup:
 
 The question is: *How can the main node discover and talk to the microservice nodes?*
 
-This is where EasyRouting helps us. It allows you to declare URIs for cluster members simply by using annotations:
+This is where EasyRouting helps us. It allows you to declare URIs for cluster members simply by using annotations with particular node names:
 
 ```java
 
@@ -124,7 +125,7 @@ public String helloWorld(@ClusterNodeURI("node1") URI node1,
 }
 ```
 
-EasyRouting automatically injects the addresses of running nodes with the given names — no manual discovery or
+EasyRouting automatically discovers and injects the addresses of running nodes with the given names — no manual discovery or
 configuration required.
 
 ***
@@ -160,7 +161,7 @@ Hello World!, Hello from 'node1', Hello from 'node2'
 
 ## Conclusion
 
-In just a handful of lines, we’ve gone from a simple standalone “Hello World” app to a minimal **clustered microservices setup** with inter - node communication—powered by Vert.x and EasyRouting.
+In just a handful of lines, we’ve gone from a simple standalone “Hello World” app to a minimal **clustered microservices setup** with internode communication — powered by Vert.x and EasyRouting.
 
 With:
 
