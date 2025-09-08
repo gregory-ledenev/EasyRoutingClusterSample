@@ -34,26 +34,50 @@ import java.util.List;
 
 import static com.gl.vertx.easyrouting.annotations.HttpMethods.*;
 
+/**
+ * Sample clustered application demonstrating EasyRouting clustering and inter-node communication.
+ */
 public class ClusteredApplication extends Application {
+    /**
+     * Aggregates greetings from cluster nodes.
+     * @param node1 URI of node1 if available
+     * @param node2 URI of node2 if available
+     * @return combined greetings from all nodes
+     */
     @GET("/*")
     public String helloWorld(@ClusterNodeURI("node1") URI node1,
                              @ClusterNodeURI("node2") URI node2) {
+        List<String> result;
         HttpClient client = HttpClient.newHttpClient();
-        List<String> result = new ArrayList<>();
+        try {
+            result = new ArrayList<>();
 
-        result.add("Hello World!");
-        getHelloFromNode(client, node1, result);
-        getHelloFromNode(client, node2, result);
+            result.add("Hello World!");
+            appendHelloFromNode(client, node1, result);
+            appendHelloFromNode(client, node2, result);
+        } finally {
+            client.close();
+        }
 
         return String.join(", ", result);
     }
 
+    /**
+     * Returns greeting from this node.
+     * @return a greeting message with node name
+     */
     @GET("/helloFromNode")
     public String helloFromNode() {
         return "Hello from '%s'".formatted(getNodeName());
     }
 
-    private void getHelloFromNode(HttpClient httpClient, URI node, List<String> result) {
+    /**
+     * Fetches greeting from a node and appends to a result list.
+     * @param httpClient HTTP client for requests
+     * @param node target node URI
+     * @param result list to append greeting to
+     */
+    private void appendHelloFromNode(HttpClient httpClient, URI node, List<String> result) {
         if (node == null)
             return;
 
@@ -66,6 +90,10 @@ public class ClusteredApplication extends Application {
         }
     }
 
+    /**
+     * Main entry point. Starts clustered application.
+     * @param args [port] [nodeName] - optional port and node name
+     */
     public static void main(String[] args) {
         int port = args.length > 0 ? Integer.parseInt(args[0]) : 8080;
         String nodeName = args.length > 0 ? args[1] : "node" + port;

@@ -18,7 +18,7 @@ First, set up a Maven project and add the EasyRouting dependency:
 <dependency>
     <groupId>io.github.gregory-ledenev</groupId>
     <artifactId>vert.x-easyrouting</artifactId>
-    <version>0.9.13</version>
+    <version>0.9.17</version>
 </dependency>
 ```
 
@@ -139,17 +139,22 @@ Let’s finish the `helloWorld` method by fetching greetings from the other node
 @GET("/*")
 public String helloWorld(@ClusterNodeURI("node1") URI node1,
                          @ClusterNodeURI("node2") URI node2) {
+    List<String> result;
     HttpClient client = HttpClient.newHttpClient();
-    List<String> result = new ArrayList<>();
+    try {
+        result = new ArrayList<>();
 
-    result.add("Hello World!");
-    getHelloFromNode(client, node1, result);
-    getHelloFromNode(client, node2, result);
+        result.add("Hello World!");
+        appendHelloFromNode(client, node1, result);
+        appendHelloFromNode(client, node2, result);
+    } finally {
+        client.close();
+    }
 
     return String.join(", ", result);
 }
 ```
-Note: this code uses `getHelloFromNode()` method that fetches greetings and the  `helloFromNode()` handler that provide actual greeting - check the project to get them.
+Note: this code uses `appendHelloFromNode()` method that fetches greetings and the `helloFromNode()` handler that provide actual greeting - check the project to get them.
 
 Run the main node and start up `node1` and `node2`. Now, when you open [http://localhost:8080](), the main node will return a **collective greeting**:
 
